@@ -27,62 +27,59 @@ $conn->close();
         <header class="text-center mb-8">
             <h1 class="text-4xl font-bold text-blue-700">Task Manager</h1>
         </header>
-        <div class="flex space-x-8">
-            <!-- Features Section -->
-            <aside class="w-1/4 bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-semibold mb-4 text-blue-700">Features</h2>
-                <div class="flex flex-col space-y-4">
-                    <form action="add_task.php" method="get">
-                        <button type="submit" class="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-300">Add New Task</button>
-                    </form>
-                </div>
-            </aside>
-
-            <!-- Tasks Table -->
-            <main class="w-3/4">
+        <div class="flex justify-center">
+            <main class="w-full md:w-3/4 card p-6">
                 <h2 class="text-2xl font-semibold mb-4 text-blue-700">Tasks</h2>
                 <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
                     <thead>
                         <tr class="bg-gray-300 border-b">
-                            <th class="py-2 px-4 text-left text-gray-800 font-bold">Task Name</th>
-                            <th class="py-2 px-4 text-left text-gray-800 font-bold">Description</th>
-                            <th class="py-2 px-4 text-left text-gray-800 font-bold">Due Date</th>
-                            <th class="py-2 px-4 text-left text-gray-800 font-bold">Priority</th>
-                            <th class="py-2 px-4 text-left text-gray-800 font-bold">Status</th>
-                            <th class="py-2 px-4 text-left text-gray-800 font-bold">Actions</th>
+                            <th class="py-3 px-4 text-left text-gray-800 font-bold">Task Name</th>
+                            <th class="py-3 px-4 text-left text-gray-800 font-bold">Description</th>
+                            <th class="py-3 px-4 text-left text-gray-800 font-bold">Due Date</th>
+                            <th class="py-3 px-4 text-left text-gray-800 font-bold">Priority</th>
+                            <th class="py-3 px-4 text-left text-gray-800 font-bold">Status</th>
+                            <th class="py-3 px-4 text-left text-gray-800 font-bold">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (count($tasks) > 0): ?>
                             <?php foreach ($tasks as $task): ?>
-                                <tr class="border-b">
-                                    <td class="py-2 px-4"><?php echo htmlspecialchars($task['task_name']); ?></td>
-                                    <td class="py-2 px-4"><?php echo htmlspecialchars($task['description']); ?></td>
-                                    <td class="py-2 px-4"><?php echo htmlspecialchars($task['due_date']); ?></td>
-                                    <td class="py-2 px-4"><?php echo htmlspecialchars($task['priority']); ?></td>
-                                    <td class="py-2 px-4"><?php echo htmlspecialchars($task['status']); ?></td>
-                                    <td class="py-2 px-4 flex space-x-2">
+                                <tr class="border-b hover:bg-gray-100">
+                                    <td class="py-3 px-4"><?php echo htmlspecialchars($task['task_name']); ?></td>
+                                    <td class="py-3 px-4"><?php echo htmlspecialchars($task['description']); ?></td>
+                                    <td class="py-3 px-4"><?php echo htmlspecialchars($task['due_date']); ?></td>
+                                    <td class="py-3 px-4"><?php echo htmlspecialchars($task['priority']); ?></td>
+                                    <td class="py-3 px-4"><?php echo htmlspecialchars($task['status']); ?></td>
+                                    <td class="py-3 px-4 flex space-x-2">
                                         <?php if ($task['status'] != 'Completed'): ?>
                                             <form action="mark_completed.php" method="post" class="inline">
                                                 <input type="hidden" name="task_id" value="<?php echo htmlspecialchars($task['id']); ?>">
-                                                <button type="submit" class="py-1 px-3 bg-green-500 text-white rounded-md hover:bg-green-400 text-sm">Mark as Completed</button>
+                                                <button type="submit" class="py-1 px-3 bg-green-600 text-white rounded-md hover:bg-green-500 text-sm">Complete</button>
                                             </form>
                                         <?php endif; ?>
-                                        <a href="edit_task.php?id=<?php echo htmlspecialchars($task['id']); ?>" class="py-1 px-3 bg-yellow-500 text-white rounded-md hover:bg-yellow-400 text-sm">Edit</a>
+                                        <form action="edit_task.php" method="get" class="inline">
+                                            <input type="hidden" name="id" value="<?php echo htmlspecialchars($task['id']); ?>">
+                                            <button type="submit" class="py-1 px-3 bg-yellow-600 text-white rounded-md hover:bg-yellow-500 text-sm">Edit</button>
+                                        </form>
                                         <form action="delete_task.php" method="post" class="inline">
                                             <input type="hidden" name="task_id" value="<?php echo htmlspecialchars($task['id']); ?>">
-                                            <button type="submit" class="py-1 px-3 bg-red-500 text-white rounded-md hover:bg-red-400 text-sm">Delete</button>
+                                            <button type="submit" class="py-1 px-3 bg-red-600 text-white rounded-md hover:bg-red-500 text-sm">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="6" class="py-2 px-4 text-center text-gray-500">No tasks available</td>
+                                <td colspan="6" class="py-3 px-4 text-center text-gray-500">No tasks available</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
+                <div class="mt-6 flex justify-end">
+                    <form action="add_task.php" method="get">
+                        <button type="submit" class="py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-500 text-sm">Add New Task</button>
+                    </form>
+                </div>
             </main>
         </div>
     </div>
